@@ -970,12 +970,57 @@ def transformer_iwslt_de_en(args):
     args.decoder_attention_heads = getattr(args, "decoder_attention_heads", 4)
     args.decoder_layers = getattr(args, "decoder_layers", 6)
     base_architecture(args)
-
+    
+@register_model_architecture("transformer", "prod_model_fin_en")
+def transformer_iwslt_de_en(args):
+    
+    # Encoder
+    args.encoder_layers = getattr(args, "encoder-layers", 6)
+    args.encoder_attention_heads = getattr(args, "encoder-attention-heads", 16)
+    args.encoder_embed_dim = getattr(args, "encoder-embed-dim", 2048)
+    args.encoder_ffn_embed_dim = getattr(args, "encoder-ffn-embed-dim", 4096)
+    
+    # Pos + Pretrained
+    args.encoder_learned_pos = getattr(args, "encoder-learned-pos", False)
+    args.encoder_embed_path = getattr(args, "encoder-embed-path", None)
+    args.encoder_normalize_before = getattr(args, "encoder-normalize-before", True)
+    
+    # Decoder
+    args.decoder_layers = getattr(args, "decoder-layers", 6)
+    args.decoder_attention_heads = getattr(args, "decoder-attention-heads", 16)
+    args.decoder_embed_dim = getattr(args, "decoder-embed-dim", 2048)
+    args.decoder_ffn_embed_dim = getattr(args, "decoder-ffn-embed-dim", 4096)
+    
+    # Pos + Pretrained
+    args.decoder_learned_pos = getattr(args, "decoder-learned-pos", False)
+    args.decoder_output_dim = getattr(args, "decoder-output-dim", 512)
+    
+    args.share_decoder_input_output_embed = getattr(args, "share-decoder-input-output-embed", True)    
+    args.decoder_embed_path = getattr(args, "decoder-embed-path", None)
+    args.decoder_normalize_before = getattr(args, "decoder-normalize-before", True)
+    
+    # Activation
+    args.activation_fn = getattr(args, "activation_fn", "relu")
+    
+    # Regularizers
+    args.dropout = getattr(args, "dropout", 0.3)
+    args.attention_dropout = getattr(args, "attention-dropout", 0.1)
+    args.activation_dropout = getattr(args, "activation-dropout", 0.1)
+   
+    # Other Layers   
+    args.share_all_embeddings = getattr(args, "share-all-embeddings", True)
+    args.no_token_positional_embeddings = getattr(args, "no-token-positional-embeddings", False)
+    args.adaptive_input = getattr(args, "adaptive_input", False)
+    args.adaptive_softmax_cutoff = getattr(args, "adaptive-softmax-cutoff", None)
+    args.adaptive_softmax_dropout = getattr(args, "adaptive-softmax-dropout", 0)
+    args.layernorm_embedding = getattr(args, "layernorm-embedding", False)
+    args.no_scale_embedding = getattr(args, "no-scale-embedding", False)
+    args.no_cross_attention = getattr(args, "no-cross-attention", False)
+    args.cross_self_attention = getattr(args, "cross-self-attention", False)
 
 @register_model_architecture("transformer", "transformer_wmt_en_de")
 def transformer_wmt_en_de(args):
     base_architecture(args)
-
 
 # parameters used in the "Attention Is All You Need" paper (Vaswani et al., 2017)
 @register_model_architecture("transformer", "transformer_vaswani_wmt_en_de_big")

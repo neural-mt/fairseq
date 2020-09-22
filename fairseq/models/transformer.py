@@ -608,9 +608,7 @@ class TransformerDecoder(FairseqIncrementalDecoder):
         )
         self.num_layers = len(self.layers)
 
-        if args.decoder_normalize_before and not getattr(
-            args, "no_decoder_final_norm", False
-        ):
+        if args.decoder_normalize_before and not getattr(args, "no_decoder_final_norm", False):
             self.layer_norm = LayerNorm(embed_dim)
         else:
             self.layer_norm = None
@@ -993,7 +991,7 @@ def transformer_iwslt_de_en(args):
     
     # Pos + Pretrained
     args.decoder_learned_pos = getattr(args, "decoder-learned-pos", False)
-    args.decoder_output_dim = getattr(args, "decoder-output-dim", 4096)
+    args.decoder_output_dim = getattr(args, "decoder-output-dim", 2048)
     
     args.share_decoder_input_output_embed = getattr(args, "share-decoder-input-output-embed", True)    
     args.decoder_embed_path = getattr(args, "decoder-embed-path", None)

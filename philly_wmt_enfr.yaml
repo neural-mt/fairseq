@@ -1,0 +1,27 @@
+description: preprocess_train
+
+target:
+  # which virtual cluster you belong to (msrlabs, etc.). Everyone has access to "msrlabs".
+  vc: msrmt
+  # physical cluster to use (cam, gcr, rr1, rr2) or Azure clusters (eu1, eu2, etc.)
+  cluster: eu3
+
+environment:
+  registry: nvcr.io
+  image: nvidia/pytorch:19.10-py3
+
+  setup:
+    - echo $PWD
+  
+code:
+  local_dir: /home/viraunak/new_fairseq/fairseq
+
+data:
+  remote_dir: data/t2prod2_fin_enu
+
+jobs:
+# name must be unique across the jobs
+- name: preprocess_train_t2prod2_fin_enu_philly
+  sku: G8
+  command:
+  - bash $$PT_CODE_DIR/philly_wmt_enfr.sh $$PT_CODE_DIR $$PT_DATA_DIR $$PT_OUTPUT_DIR 0.1
